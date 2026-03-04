@@ -1,0 +1,112 @@
+audit_id;section;item_no;esito;score;ita;eng;note
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;1;Conforme;2;I percorsi pedonali sono chiaramente definiti e liberi da ostacoli?;Are walkways clearly defined and free of obstructions?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;2;Conforme;2;I pavimenti sono puliti e privi di rifiuti?;Are floors clean and clear of rubbish?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;3;Conforme;2;Le aree di stoccaggio sono chiaramente identificate?;Are storage areas clearly defined?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;4;Conforme;2;Gli utensili manuali sono riposti nelle aree designate?;Are hand tools in a designated area?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;5;Conforme;2;Cavi elettrici ordinati e fissati?;Is electrical cabling tied back/secured?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;6;Conforme;2;Contenitori rifiuti mantenuti correttamente?;Are waste bins maintained?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;7;Conforme;2;Rifiuti separati correttamente?;Is waste being separated properly?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;8;Conforme;2;Attrezzature pulite e idonee all’uso?;Is equipment clean and fit for function?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;9;Conforme;2;Effetti personali lontani dalle aree produttive?;Is personal property secured away from production areas?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;10;Conforme;2;Bacheche informative ordinate e aggiornate?;Are notice boards tidy and information up to date?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;11;Migliorabile;1;Oli stoccati correttamente su bacino di contenimento?;Is oil being stored properly on a bund?;Contenitori liquidi non sempre posizionati su vasca di contenimento secondario.
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;12;Conforme;2;Assenza di perdite (olio/acqua) dai macchinari?;Are any machines leaking oil or water?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;13;Conforme;2;Segnaletica e marcature corsie/percorsi coerenti e visibili?;Signage and markings (walkways/forklift lanes) visible and consistent?;
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;14;Migliorabile;1;Ordine postazione operatore (5S light) mantenuto?;Workstation order (light 5S) maintained?;Ordine banchi di lavoro migliorabile: materiali/utensili temporaneamente non riposti.
+MA-HALLITE-001Q_2025;🧹 A — Housekeeping & Organizzazione;15;Conforme;2;Illuminazione adeguata e senza punti critici evidenti?;Lighting adequate with no obvious critical areas?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;1;Conforme;2;Apparecchiature elettriche portatili verificate (se applicabile)?;Portable electrical appliances tested (if applicable)?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;2;Conforme;2;Spine, cavi e interruttori in buono stato?;Plugs, cables and switches in good repair?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;3;Conforme;2;Assenza di sostanze chimiche non identificate?;No unidentified chemicals present?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;4;Migliorabile;1;Sostanze chimiche stoccate correttamente?;Chemicals stored properly?;Alcuni contenitori di sostanze liquide non risultano richiusi correttamente dopo l’utilizzo.
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;5;Conforme;2;Kit antiversamento disponibili e integri?;Spill kits available and intact?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;6;Conforme;2;DPI disponibili e correttamente utilizzati?;PPE available and being worn?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;7;Conforme;2;Istruzioni/Procedure operative visibili e comprensibili?;Safe systems of work visible and understandable?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;8;Non conforme;0;Scaffalature/rack privi di danni evidenti?;Racking free from damage?;Assenza figura PRSES e evidenza verifiche periodiche portate scaffalature di magazzino.
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;9;Conforme;2;Assenza di lame/utensili taglienti lasciati esposti?;No exposed blades/sharp tools left out?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;10;Conforme;2;Vie di esodo/uscite di emergenza libere?;Emergency exits and escape routes clear?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;11;Conforme;2;Attrezzature di sollevamento censite/identificate e riposte correttamente?;Lifting equipment accounted for, tagged and stored properly?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;12;Conforme;2;Protezioni macchine integre e adeguate?;Machine guards adequate and intact?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;13;Conforme;2;Uso aria compressa sicuro (ugelli idonei / prassi corretta), se presente?;Compressed air use safe (safe nozzles / correct practice), if present?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;14;Conforme;2;Comportamenti sicuri osservati durante la visita?;Safe behaviors observed during the walk-through?;
+MA-HALLITE-001Q_2025;🦺 B — Health & Safety Operativa;15;Conforme;2;Nessuna condizione di rischio immediato evidente (es. improvvisazioni, bypass)?;No obvious immediate-risk conditions (e.g., bypass, improvisations)?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;1;Conforme;2;Controlli protezioni macchine presenti e aggiornati?;Machinery guard checks available and up to date?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;2;Conforme;2;Registro mole abrasive (se applicabile) aggiornato?;Abrasive wheel logs (if applicable) up to date?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;3;Conforme;2;Controlli carrelli elevatori (se applicabile) registrati?;Forklift checks (if applicable) recorded?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;4;Conforme;2;Controlli aspirazioni/LEV (se applicabile) disponibili?;LEV checks (if applicable) available?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;5;Conforme;2;Ispezioni/controlli supervisore registrati?;Supervisor inspections recorded?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;6;Conforme;2;Azioni correttive aperte visibili e gestite (se presenti)?;Open corrective actions visible and managed (if any)?;
+MA-HALLITE-001Q_2025;📋 C — Controlli Documentali Reparto;7;Conforme;2;Evidenze formazione/abilitazioni disponibili per l’area (se rilevante)?;Training/authorizations evidence available for the area (if relevant)?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;1;Conforme;2;I percorsi pedonali sono chiaramente definiti e liberi da ostacoli?;Are walkways clearly defined and free of obstructions?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;2;Conforme;2;I pavimenti sono puliti e privi di rifiuti?;Are floors clean and clear of rubbish?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;3;Migliorabile;1;Le aree di stoccaggio sono chiaramente identificate?;Are storage areas clearly defined?;Materiale temporaneamente depositato fuori dalle aree delimitate.
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;4;Conforme;2;Gli utensili manuali sono riposti nelle aree designate?;Are hand tools in a designated area?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;5;Conforme;2;Cavi elettrici ordinati e fissati?;Is electrical cabling tied back/secured?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;6;Conforme;2;Contenitori rifiuti mantenuti correttamente?;Are waste bins maintained?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;7;Conforme;2;Rifiuti separati correttamente?;Is waste being separated properly?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;8;Conforme;2;Attrezzature pulite e idonee all’uso?;Is equipment clean and fit for function?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;9;Conforme;2;Effetti personali lontani dalle aree produttive?;Is personal property secured away from production areas?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;10;Conforme;2;Bacheche informative ordinate e aggiornate?;Are notice boards tidy and information up to date?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;11;Conforme;2;Oli stoccati correttamente su bacino di contenimento?;Is oil being stored properly on a bund?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;12;Conforme;2;Assenza di perdite (olio/acqua) dai macchinari?;Are any machines leaking oil or water?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;13;Conforme;2;Segnaletica e marcature corsie/percorsi coerenti e visibili?;Signage and markings (walkways/forklift lanes) visible and consistent?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;14;Conforme;2;Ordine postazione operatore (5S light) mantenuto?;Workstation order (light 5S) maintained?;
+MA-HALLITE-002Q_2025;🧹 A — Housekeeping & Organizzazione;15;Conforme;2;Illuminazione adeguata e senza punti critici evidenti?;Lighting adequate with no obvious critical areas?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;1;Conforme;2;Apparecchiature elettriche portatili verificate (se applicabile)?;Portable electrical appliances tested (if applicable)?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;2;Conforme;2;Spine, cavi e interruttori in buono stato?;Plugs, cables and switches in good repair?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;3;Migliorabile;1;Assenza di sostanze chimiche non identificate?;No unidentified chemicals present?;Etichettatura secondaria non presente su alcuni contenitori.
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;4;Conforme;2;Sostanze chimiche stoccate correttamente?;Chemicals stored properly?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;5;Conforme;2;Kit antiversamento disponibili e integri?;Spill kits available and intact?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;6;Conforme;2;DPI disponibili e correttamente utilizzati?;PPE available and being worn?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;7;Conforme;2;Istruzioni/Procedure operative visibili e comprensibili?;Safe systems of work visible and understandable?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;8;Conforme;2;Scaffalature/rack privi di danni evidenti?;Racking free from damage?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;9;Conforme;2;Assenza di lame/utensili taglienti lasciati esposti?;No exposed blades/sharp tools left out?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;10;Conforme;2;Vie di esodo/uscite di emergenza libere?;Emergency exits and escape routes clear?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;11;Conforme;2;Attrezzature di sollevamento censite/identificate e riposte correttamente?;Lifting equipment accounted for, tagged and stored properly?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;12;Conforme;2;Protezioni macchine integre e adeguate?;Machine guards adequate and intact?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;13;Conforme;2;Uso aria compressa sicuro (ugelli idonei / prassi corretta), se presente?;Compressed air use safe (safe nozzles / correct practice), if present?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;14;Conforme;2;Comportamenti sicuri osservati durante la visita?;Safe behaviors observed during the walk-through?;
+MA-HALLITE-002Q_2025;🦺 B — Health & Safety Operativa;15;Conforme;2;Nessuna condizione di rischio immediato evidente (es. improvvisazioni, bypass)?;No obvious immediate-risk conditions (e.g., bypass, improvisations)?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;1;Conforme;2;Controlli protezioni macchine presenti e aggiornati?;Machinery guard checks available and up to date?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;2;Conforme;2;Registro mole abrasive (se applicabile) aggiornato?;Abrasive wheel logs (if applicable) up to date?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;3;Non conforme;0;Controlli carrelli elevatori (se applicabile) registrati?;Forklift checks (if applicable) recorded?;Controlli giornalieri carrelli elevatori non registrati con continuità.
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;4;Conforme;2;Controlli aspirazioni/LEV (se applicabile) disponibili?;LEV checks (if applicable) available?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;5;Conforme;2;Ispezioni/controlli supervisore registrati?;Supervisor inspections recorded?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;6;Conforme;2;Azioni correttive aperte visibili e gestite (se presenti)?;Open corrective actions visible and managed (if any)?;
+MA-HALLITE-002Q_2025;📋 C — Controlli Documentali Reparto;7;Conforme;2;Evidenze formazione/abilitazioni disponibili per l’area (se rilevante)?;Training/authorizations evidence available for the area (if relevant)?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;1;Conforme;2;I percorsi pedonali sono chiaramente definiti e liberi da ostacoli?;Are walkways clearly defined and free of obstructions?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;2;Conforme;2;I pavimenti sono puliti e privi di rifiuti?;Are floors clean and clear of rubbish?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;3;Conforme;2;Le aree di stoccaggio sono chiaramente identificate?;Are storage areas clearly defined?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;4;Migliorabile;1;Gli utensili manuali sono riposti nelle aree designate?;Are hand tools in a designated area?;Utensili non riposti al termine turno in alcune postazioni.
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;5;Conforme;2;Cavi elettrici ordinati e fissati?;Is electrical cabling tied back/secured?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;6;Conforme;2;Contenitori rifiuti mantenuti correttamente?;Are waste bins maintained?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;7;Conforme;2;Rifiuti separati correttamente?;Is waste being separated properly?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;8;Conforme;2;Attrezzature pulite e idonee all’uso?;Is equipment clean and fit for function?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;9;Conforme;2;Effetti personali lontani dalle aree produttive?;Is personal property secured away from production areas?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;10;Conforme;2;Bacheche informative ordinate e aggiornate?;Are notice boards tidy and information up to date?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;11;Conforme;2;Oli stoccati correttamente su bacino di contenimento?;Is oil being stored properly on a bund?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;12;Conforme;2;Assenza di perdite (olio/acqua) dai macchinari?;Are any machines leaking oil or water?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;13;Conforme;2;Segnaletica e marcature corsie/percorsi coerenti e visibili?;Signage and markings (walkways/forklift lanes) visible and consistent?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;14;Conforme;2;Ordine postazione operatore (5S light) mantenuto?;Workstation order (light 5S) maintained?;
+MA-HALLITE-003Q_2025;🧹 A — Housekeeping & Organizzazione;15;Conforme;2;Illuminazione adeguata e senza punti critici evidenti?;Lighting adequate with no obvious critical areas?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;1;Conforme;2;Apparecchiature elettriche portatili verificate (se applicabile)?;Portable electrical appliances tested (if applicable)?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;2;Conforme;2;Spine, cavi e interruttori in buono stato?;Plugs, cables and switches in good repair?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;3;Conforme;2;Assenza di sostanze chimiche non identificate?;No unidentified chemicals present?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;4;Conforme;2;Sostanze chimiche stoccate correttamente?;Chemicals stored properly?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;5;Conforme;2;Kit antiversamento disponibili e integri?;Spill kits available and intact?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;6;Conforme;2;DPI disponibili e correttamente utilizzati?;PPE available and being worn?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;7;Conforme;2;Istruzioni/Procedure operative visibili e comprensibili?;Safe systems of work visible and understandable?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;8;Conforme;2;Scaffalature/rack privi di danni evidenti?;Racking free from damage?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;9;Conforme;2;Assenza di lame/utensili taglienti lasciati esposti?;No exposed blades/sharp tools left out?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;10;Conforme;2;Vie di esodo/uscite di emergenza libere?;Emergency exits and escape routes clear?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;11;Conforme;2;Attrezzature di sollevamento censite/identificate e riposte correttamente?;Lifting equipment accounted for, tagged and stored properly?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;12;Migliorabile;1;Protezioni macchine integre e adeguate?;Machine guards adequate and intact?;Protezione mobile macchina lasciata aperta durante fermo.
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;13;Conforme;2;Uso aria compressa sicuro (ugelli idonei / prassi corretta), se presente?;Compressed air use safe (safe nozzles / correct practice), if present?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;14;Conforme;2;Comportamenti sicuri osservati durante la visita?;Safe behaviors observed during the walk-through?;
+MA-HALLITE-003Q_2025;🦺 B — Health & Safety Operativa;15;Conforme;2;Nessuna condizione di rischio immediato evidente (es. improvvisazioni, bypass)?;No obvious immediate-risk conditions (e.g., bypass, improvisations)?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;1;Non conforme;0;Controlli protezioni macchine presenti e aggiornati?;Machinery guard checks available and up to date?;Mancata registrazione controlli giornalieri macchina su checklist prevista.
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;2;Conforme;2;Registro mole abrasive (se applicabile) aggiornato?;Abrasive wheel logs (if applicable) up to date?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;3;Conforme;2;Controlli carrelli elevatori (se applicabile) registrati?;Forklift checks (if applicable) recorded?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;4;Conforme;2;Controlli aspirazioni/LEV (se applicabile) disponibili?;LEV checks (if applicable) available?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;5;Conforme;2;Ispezioni/controlli supervisore registrati?;Supervisor inspections recorded?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;6;Conforme;2;Azioni correttive aperte visibili e gestite (se presenti)?;Open corrective actions visible and managed (if any)?;
+MA-HALLITE-003Q_2025;📋 C — Controlli Documentali Reparto;7;Conforme;2;Evidenze formazione/abilitazioni disponibili per l’area (se rilevante)?;Training/authorizations evidence available for the area (if relevant)?;
