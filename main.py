@@ -10,7 +10,7 @@ import streamlit as st
 import pandas as pd
 import time
 import hmac
-import streamlit as st
+
 # PDF
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
@@ -47,58 +47,82 @@ st.set_page_config(
 )
 
 
-
-
-
+# -----------------------------
+# Confronto password sicuro
+# -----------------------------
 def _check_pw(plain: str, stored: str) -> bool:
-    # confronto “constant time” (evita timing attacks, e funziona bene anche se stored è plain)
     return hmac.compare_digest(plain or "", stored or "")
 
-def login_gate(logo_path: str = "logo.png") -> None:
+
+# -----------------------------
+# Lettura utenti da secrets
+# -----------------------------
+def get_users_from_secrets():
+    try:
+        users = st.secrets["auth"]["users"]
+        passwords = st.secrets["auth"]["passwords"]
+
+        # costruisce dict {username: password}
+        return dict(zip(users, passwords))
+    except Exception:
+        return {}
+
+
+# -----------------------------
+# LOGIN PAGE
+# -----------------------------
+def login_gate(logo_path="logo.png"):
+
     if st.session_state.get("auth_ok"):
         return
 
-    # --- UI ---
-    col1, col2, col3 = st.columns([1, 2, 1])
+    users = get_users_from_secrets()
+
+    col1, col2, col3 = st.columns([1,2,1])
+
     with col2:
+
         try:
-            st.image(logo_path, use_container_width=True)
-        except Exception:
+            st.image(logo_path, width=240)
+        except:
             pass
 
         st.markdown("## 🔐 Accesso Mini Audit 4Step")
         st.caption("Inserisci le credenziali per continuare.")
 
-        username = st.text_input("Username", key="login_user")
-        password = st.text_input("Password", type="password", key="login_pass")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
 
-        users = (st.secrets.get("auth", {}) or {}).get("users", {}) or {}
+        colA, colB = st.columns(2)
 
-        c1, c2 = st.columns(2)
-        with c1:
-            do_login = st.button("✅ Entra", use_container_width=True)
-        with c2:
-            st.button("🧹 Pulisci", use_container_width=True, on_click=lambda: (
-                st.session_state.pop("login_user", None),
-                st.session_state.pop("login_pass", None)
-            ))
+        with colA:
+            login = st.button("✅ Entra", use_container_width=True)
 
-        if do_login:
-            if username in users and _check_pw(password, str(users[username])):
+        with colB:
+            clear = st.button("🧹 Pulisci", use_container_width=True)
+
+        if clear:
+            st.rerun()
+
+        if login:
+            stored_pw = users.get(username)
+
+            if stored_pw and _check_pw(password, stored_pw):
                 st.session_state["auth_ok"] = True
                 st.session_state["auth_user"] = username
                 st.success("Accesso eseguito.")
-                time.sleep(0.3)
+                time.sleep(0.4)
                 st.rerun()
             else:
-                st.error("Credenziali non valide.")
+                st.error("Credenziali non valide")
 
-    # blocca il resto dell’app finché non autenticato
     st.stop()
 
-# ✅ CHIAMALA QUI (prima di qualunque altra UI dell’app)
-login_gate("logo.png")
 
+# -----------------------------
+# ATTIVA LOGIN
+# -----------------------------
+login_gate("logo.png")
 # Palette “nostra” (navy / azzurro / bianco + grigi soft)
 NAVY = "#0B1F3A"
 NAVY_2 = "#0A1730"
