@@ -8,7 +8,9 @@ from typing import Dict, List, Tuple
 
 import streamlit as st
 import pandas as pd
-
+import time
+import hmac
+import streamlit as st
 # PDF
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
@@ -43,6 +45,59 @@ st.set_page_config(
     page_icon="🧩",
     layout="wide",
 )
+
+
+
+
+
+def _check_pw(plain: str, stored: str) -> bool:
+    # confronto “constant time” (evita timing attacks, e funziona bene anche se stored è plain)
+    return hmac.compare_digest(plain or "", stored or "")
+
+def login_gate(logo_path: str = "logo.png") -> None:
+    if st.session_state.get("auth_ok"):
+        return
+
+    # --- UI ---
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        try:
+            st.image(logo_path, use_container_width=True)
+        except Exception:
+            pass
+
+        st.markdown("## 🔐 Accesso Mini Audit 4Step")
+        st.caption("Inserisci le credenziali per continuare.")
+
+        username = st.text_input("Username", key="login_user")
+        password = st.text_input("Password", type="password", key="login_pass")
+
+        users = (st.secrets.get("auth", {}) or {}).get("users", {}) or {}
+
+        c1, c2 = st.columns(2)
+        with c1:
+            do_login = st.button("✅ Entra", use_container_width=True)
+        with c2:
+            st.button("🧹 Pulisci", use_container_width=True, on_click=lambda: (
+                st.session_state.pop("login_user", None),
+                st.session_state.pop("login_pass", None)
+            ))
+
+        if do_login:
+            if username in users and _check_pw(password, str(users[username])):
+                st.session_state["auth_ok"] = True
+                st.session_state["auth_user"] = username
+                st.success("Accesso eseguito.")
+                time.sleep(0.3)
+                st.rerun()
+            else:
+                st.error("Credenziali non valide.")
+
+    # blocca il resto dell’app finché non autenticato
+    st.stop()
+
+# ✅ CHIAMALA QUI (prima di qualunque altra UI dell’app)
+login_gate("logo.png")
 
 # Palette “nostra” (navy / azzurro / bianco + grigi soft)
 NAVY = "#0B1F3A"
