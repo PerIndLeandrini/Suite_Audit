@@ -475,7 +475,6 @@ def api_is_configured() -> bool:
     base_url, token = get_api_config()
     return bool(base_url and token)
 
-
 def api_request(method: str, endpoint: str, **kwargs) -> dict:
     base_url, token = get_api_config()
 
@@ -483,8 +482,17 @@ def api_request(method: str, endpoint: str, **kwargs) -> dict:
         raise RuntimeError("API audit non configurata nei Secrets Streamlit.")
 
     url = f"{base_url}/{endpoint.lstrip('/')}"
-    headers = kwargs.pop("headers", {}) or {}
-    headers["X-API-KEY"] = token
+
+    extra_headers = kwargs.pop("headers", {}) or {}
+
+    headers = {
+        "X-API-KEY": token,
+        "Accept": "application/json",
+        "User-Agent": "Mozilla/5.0 4StepAuditStreamlit/1.0",
+        "Cache-Control": "no-cache",
+    }
+
+    headers.update(extra_headers)
 
     response = requests.request(
         method=method.upper(),
@@ -497,15 +505,18 @@ def api_request(method: str, endpoint: str, **kwargs) -> dict:
     try:
         data = response.json()
     except Exception:
-        response.raise_for_status()
-        raise RuntimeError("Risposta API non valida/non JSON.")
+        body_preview = response.text[:500] if response.text else ""
+        raise RuntimeError(
+            f"Risposta API non JSON. HTTP {response.status_code}. Body: {body_preview}"
+        )
 
     if not response.ok or not data.get("ok", False):
-        raise RuntimeError(data.get("error") or f"Errore API HTTP {response.status_code}")
+        raise RuntimeError(
+            data.get("error") or f"Errore API HTTP {response.status_code}"
+        )
 
     return data
-
-
+    
 def save_audit_to_api(audit: dict) -> dict:
     return api_request(
         "POST",
