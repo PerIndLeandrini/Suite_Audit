@@ -8,6 +8,7 @@ from typing import Dict, List, Tuple
 
 import streamlit as st
 import pandas as pd
+import requests
 import time
 import hmac
 
@@ -359,8 +360,8 @@ def compute_score(audit: dict) -> tuple[int, int, float]:
         "❌ Non conforme": 0,
         "Non conforme": 0,
 
-        "⛔ Critica": 0,
-        "Critica": 0,
+        "⛔ Critica": -2,
+        "Critica": -2,
     }
 
     pts = 0
@@ -449,6 +450,90 @@ def save_audit_to_csv(audit: dict) -> str:
             ])
 
     return audit_id
+
+
+# -----------------------
+# API STORAGE 4STEP.IT / MARIADB
+# -----------------------
+def get_api_config() -> tuple[str, str]:
+    """Legge base_url e token dai Secrets Streamlit.
+
+    Secrets attesi:
+    [api_audit]
+    base_url = "https://4step.it/api_audit"
+    token = "..."
+    """
+    try:
+        base_url = str(st.secrets["api_audit"]["base_url"]).rstrip("/")
+        token = str(st.secrets["api_audit"]["token"])
+        return base_url, token
+    except Exception:
+        return "", ""
+
+
+def api_is_configured() -> bool:
+    base_url, token = get_api_config()
+    return bool(base_url and token)
+
+
+def api_request(method: str, endpoint: str, **kwargs) -> dict:
+    base_url, token = get_api_config()
+
+    if not base_url or not token:
+        raise RuntimeError("API audit non configurata nei Secrets Streamlit.")
+
+    url = f"{base_url}/{endpoint.lstrip('/')}"
+    headers = kwargs.pop("headers", {}) or {}
+    headers["X-API-KEY"] = token
+
+    response = requests.request(
+        method=method.upper(),
+        url=url,
+        headers=headers,
+        timeout=20,
+        **kwargs,
+    )
+
+    try:
+        data = response.json()
+    except Exception:
+        response.raise_for_status()
+        raise RuntimeError("Risposta API non valida/non JSON.")
+
+    if not response.ok or not data.get("ok", False):
+        raise RuntimeError(data.get("error") or f"Errore API HTTP {response.status_code}")
+
+    return data
+
+
+def save_audit_to_api(audit: dict) -> dict:
+    return api_request(
+        "POST",
+        "save_audit.php",
+        json={"audit": audit},
+        headers={"Content-Type": "application/json"},
+    )
+
+
+def get_audits_from_api() -> list[dict]:
+    data = api_request("GET", "get_audits.php")
+    return data.get("rows", []) or []
+
+
+def get_audit_detail_from_api(audit_id: str) -> dict:
+    data = api_request(
+        "GET",
+        "get_audit_detail.php",
+        params={"audit_id": audit_id},
+    )
+    return data
+
+
+def rows_to_csv_bytes(rows: list[dict]) -> bytes:
+    if not rows:
+        return b""
+    df = pd.DataFrame(rows)
+    return df.to_csv(index=False, sep=";").encode("utf-8-sig")
 
 
 # -----------------------
@@ -743,7 +828,7 @@ with st.sidebar:
         st.markdown("**logo.png non trovato**")
 
     st.markdown("### 🧩 Mini Audit 4Step")
-    st.caption("Bilingue ITA/ENG • Scoring live • Export PDF • Storico CSV")
+    st.caption("Bilingue ITA/ENG • Scoring live • Export PDF • Storico MariaDB/API")
 
     page = st.radio("Navigazione", ["🧩 Nuovo Audit", "📊 Storico & Analytics"], index=0)
 
@@ -778,8 +863,20 @@ with st.sidebar:
             st.session_state["_last_pdf"] = build_pdf(st.session_state.audit, logo_path="logo.png")
     with colB:
         if st.button("💾 Salva", use_container_width=True):
-            audit_id = save_audit_to_csv(st.session_state.audit)
-            st.success(f"Salvato ✅ ID: {audit_id}")
+            if api_is_configured():
+                try:
+                    api_result = save_audit_to_api(st.session_state.audit)
+                    audit_id = api_result.get("audit_id", "")
+                    score_pct_api = api_result.get("score_pct", "")
+                    st.success(f"Salvato su MariaDB ✅ ID: {audit_id} • Score: {score_pct_api}%")
+                except Exception as e:
+                    st.error(f"Salvataggio su MariaDB non riuscito: {e}")
+                    st.warning("Fallback: salvo una copia locale CSV nel runtime dell’app.")
+                    audit_id = save_audit_to_csv(st.session_state.audit)
+                    st.info(f"Copia locale CSV salvata ✅ ID: {audit_id}")
+            else:
+                audit_id = save_audit_to_csv(st.session_state.audit)
+                st.warning(f"API non configurata: salvato solo su CSV locale ✅ ID: {audit_id}")
 
     if "_last_pdf" in st.session_state:
         st.download_button(
@@ -812,16 +909,37 @@ def read_csv_dicts(path: Path) -> List[dict]:
 if page == "📊 Storico & Analytics":
     st.markdown("## 📊 Storico audit")
 
-    if not RECORDS_CSV.exists():
-        st.info("Ancora nessun audit salvato. Premi **💾 Salva** dopo aver compilato un audit.")
+    storage_source = "MariaDB/API"
+    rows: list[dict] = []
+
+    if api_is_configured():
+        try:
+            rows = get_audits_from_api()
+            st.caption("Archivio collegato: **MariaDB su 4step.it via API protetta**")
+        except Exception as e:
+            st.error(f"Impossibile leggere lo storico da MariaDB/API: {e}")
+            storage_source = "CSV locale fallback"
+            if RECORDS_CSV.exists():
+                rows = read_csv_dicts(RECORDS_CSV)
+                st.warning("Mostro lo storico CSV locale come fallback.")
+            else:
+                rows = []
+    else:
+        storage_source = "CSV locale"
+        if RECORDS_CSV.exists():
+            rows = read_csv_dicts(RECORDS_CSV)
+            st.warning("API non configurata nei Secrets: mostro lo storico CSV locale.")
+        else:
+            rows = []
+
+    if not rows:
+        st.info("Ancora nessun audit salvato nello storico selezionato.")
         st.stop()
 
-    rows = read_csv_dicts(RECORDS_CSV)
-
     # filtri
-    clienti = sorted({r["cliente"] for r in rows if r.get("cliente")})
-    reparti = sorted({r["reparto"] for r in rows if r.get("reparto")})
-    auditor = sorted({r["auditor"] for r in rows if r.get("auditor")})
+    clienti = sorted({r.get("cliente", "") for r in rows if r.get("cliente")})
+    reparti = sorted({r.get("reparto", "") for r in rows if r.get("reparto")})
+    auditor_list = sorted({r.get("auditor", "") for r in rows if r.get("auditor")})
 
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -829,7 +947,7 @@ if page == "📊 Storico & Analytics":
     with c2:
         f_reparto = st.selectbox("Reparto", ["(tutti)"] + reparti)
     with c3:
-        f_auditor = st.selectbox("Auditor", ["(tutti)"] + auditor)
+        f_auditor = st.selectbox("Auditor", ["(tutti)"] + auditor_list)
 
     filtered = [
         r for r in rows
@@ -838,44 +956,39 @@ if page == "📊 Storico & Analytics":
         and (f_auditor == "(tutti)" or r.get("auditor") == f_auditor)
     ]
 
-    st.caption(f"Audit trovati: **{len(filtered)}**")
+    st.caption(f"Archivio: **{storage_source}** • Audit trovati: **{len(filtered)}**")
 
     # tabella storico
     table = []
-    for r in reversed(filtered):
+    for r in filtered:
         table.append({
             "timestamp": r.get("timestamp", ""),
             "codice": r.get("codice", ""),
             "cliente": r.get("cliente", ""),
             "reparto": r.get("reparto", ""),
+            "area": r.get("area", ""),
             "auditor": r.get("auditor", ""),
+            "data_audit": r.get("data_audit", r.get("data", "")),
             "score_%": r.get("score_pct", ""),
             "stato": r.get("status_it", ""),
             "audit_id": r.get("audit_id", ""),
         })
 
-    st.dataframe(table, use_container_width=True, height=180)
+    st.dataframe(table, use_container_width=True, height=220)
 
-    # download CSV grezzi
-    dc1, dc2, dc3 = st.columns(3)
-    with dc1:
-        st.download_button("⬇️ Download audit_records.csv", data=RECORDS_CSV.read_bytes(),
-                           file_name="audit_records.csv", mime="text/csv", use_container_width=True)
-    with dc2:
-        if FINDINGS_CSV.exists():
-            st.download_button("⬇️ Download audit_findings.csv", data=FINDINGS_CSV.read_bytes(),
-                               file_name="audit_findings.csv", mime="text/csv", use_container_width=True)
-    with dc3:
-        if ACTIONS_CSV.exists():
-            st.download_button("⬇️ Download audit_actions.csv", data=ACTIONS_CSV.read_bytes(),
-                               file_name="audit_actions.csv", mime="text/csv", use_container_width=True)
-        
+    st.download_button(
+        "⬇️ Download storico filtrato CSV",
+        data=rows_to_csv_bytes(table),
+        file_name="audit_records_export.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
 
     st.markdown("---")
 
     # Expander SEMPRE visibile
     with st.expander("🔎 Vuoi analizzare il dettaglio di un audit?", expanded=True):
-        audit_ids = [r.get("audit_id", "") for r in reversed(filtered)]
+        audit_ids = [r.get("audit_id", "") for r in filtered]
         audit_ids = [x for x in audit_ids if x]
 
         if not audit_ids:
@@ -889,101 +1002,105 @@ if page == "📊 Storico & Analytics":
     if sel_id:
         st.markdown(f"### 📌 Dettaglio audit: `{sel_id}`")
 
-        if FINDINGS_CSV.exists():
-        
-            # -----------------------------
-            # Lettura dati
-            # -----------------------------
-            det_list = [
-                d for d in read_csv_dicts(FINDINGS_CSV)
-                if d.get("audit_id") == sel_id
-            ]
+        detail_data = None
+        audit_obj = None
+        findings_list = []
+        actions_list = []
 
-            if det_list:
-                det_df = pd.DataFrame(det_list)
+        if storage_source.startswith("MariaDB") and api_is_configured():
+            try:
+                detail_data = get_audit_detail_from_api(sel_id)
+                audit_obj = detail_data.get("audit") or {}
+                findings_list = detail_data.get("findings") or []
+                actions_list = detail_data.get("actions") or []
+            except Exception as e:
+                st.error(f"Impossibile caricare il dettaglio audit da API: {e}")
+        else:
+            if FINDINGS_CSV.exists():
+                findings_list = [d for d in read_csv_dicts(FINDINGS_CSV) if d.get("audit_id") == sel_id]
+            if ACTIONS_CSV.exists():
+                actions_list = [a for a in read_csv_dicts(ACTIONS_CSV) if a.get("audit_id") == sel_id]
+            audit_obj = build_audit_from_csv(sel_id, RECORDS_CSV, FINDINGS_CSV, ACTIONS_CSV)
 
-                # -----------------------------
-                # Ordinamento
-                # -----------------------------
-                if "item_no" in det_df.columns:
-                    det_df["item_no"] = det_df["item_no"].astype(int)
+        if findings_list:
+            det_df = pd.DataFrame(findings_list)
 
-                det_df = det_df.sort_values(["section", "item_no"], ascending=[True, True])
+            if "item_no" in det_df.columns:
+                det_df["item_no"] = pd.to_numeric(det_df["item_no"], errors="coerce").fillna(0).astype(int)
 
-                # -----------------------------
-                # ICONA ESITO (NUOVO)
-                # -----------------------------
+            sort_cols = [c for c in ["section", "item_no"] if c in det_df.columns]
+            if sort_cols:
+                det_df = det_df.sort_values(sort_cols, ascending=True)
+
+            if "esito" in det_df.columns:
                 det_df["icon"] = det_df["esito"].apply(esito_icon)
 
-                # -----------------------------
-                # Ordine colonne (safe)
-                # -----------------------------
-                cols = [
-                    "icon",
-                    "esito",
-                    "score",
-                    "section",
-                    "item_no",
-                    "ita",
-                    "eng",
-                    "note",
-                ]
+            cols = [
+                "icon",
+                "esito",
+                "score",
+                "section",
+                "item_no",
+                "ita",
+                "eng",
+                "note",
+            ]
+            cols = [c for c in cols if c in det_df.columns]
+            det_df = det_df[cols]
 
-                cols = [c for c in cols if c in det_df.columns]
-                det_df = det_df[cols]
+            height = min(1400, max(420, 38 * (len(det_df) + 1)))
 
-                # -----------------------------
-                # (1) HEIGHT DINAMICA
-                # -----------------------------
-                rows = len(det_df)
-                height = min(1400, max(420, 38 * (rows + 1)))
+            st.markdown("#### Checklist (findings)")
+            st.data_editor(
+                det_df,
+                use_container_width=True,
+                height=height,
+                disabled=True,
+                hide_index=True,
+            )
 
-                # -----------------------------
-                # UI
-                # -----------------------------
-                st.markdown("#### Checklist (findings)")
+            st.download_button(
+                "⬇️ Download findings CSV",
+                data=rows_to_csv_bytes(findings_list),
+                file_name=f"{sel_id}_findings.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+        else:
+            st.info("Nessun finding disponibile per questo audit.")
 
-                st.data_editor(
-                    det_df,
-                    use_container_width=True,
-                    height=height,
-                    disabled=True,
-                    hide_index=True
-                )
-
-            else:
-                st.info("Nessun finding disponibile per questo audit.")
-
-            if sel_id:
-                # ... (la tua tabella det_df)
-            
-                col_pdf1, col_pdf2 = st.columns([1, 3])
-                with col_pdf1:
-                    if st.button("🧾 Esporta PDF dettaglio", use_container_width=True):
-                        audit_obj = build_audit_from_csv(sel_id, RECORDS_CSV, FINDINGS_CSV, ACTIONS_CSV)
-            
-                        pdf_bytes = build_pdf(audit_obj, logo_path="logo.png")  # riusa la tua build_pdf
-                        st.download_button(
-                            "⬇️ Scarica PDF",
-                            data=pdf_bytes,
-                            file_name=f"{sel_id}.pdf",
-                            mime="application/pdf",
-                            use_container_width=True
-                        )
-
-        if ACTIONS_CSV.exists():
-            act_list = [a for a in read_csv_dicts(ACTIONS_CSV) if a.get("audit_id") == sel_id]
-            act_df = pd.DataFrame(act_list)
-
-            st.markdown("#### Azioni (actions)")
+        st.markdown("#### Azioni (actions)")
+        if actions_list:
+            act_df = pd.DataFrame(actions_list)
             st.data_editor(
                 act_df,
                 use_container_width=True,
                 height=320,
                 disabled=True,
-                hide_index=True
+                hide_index=True,
             )
+            st.download_button(
+                "⬇️ Download actions CSV",
+                data=rows_to_csv_bytes(actions_list),
+                file_name=f"{sel_id}_actions.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+        else:
+            st.info("Nessuna azione registrata per questo audit.")
 
+        if audit_obj:
+            col_pdf1, col_pdf2 = st.columns([1, 3])
+            with col_pdf1:
+                if st.button("🧾 Esporta PDF dettaglio", use_container_width=True):
+                    pdf_bytes = build_pdf(audit_obj, logo_path="logo.png")
+                    st.download_button(
+                        "⬇️ Scarica PDF",
+                        data=pdf_bytes,
+                        file_name=f"{sel_id}.pdf",
+                        mime="application/pdf",
+                        use_container_width=True,
+                    )
 
     st.stop()
 
@@ -1010,20 +1127,20 @@ def compute_score_from_results(audit: dict) -> tuple[int, int, float]:
 
 def esito_icon(esito: str) -> str:
     e = (esito or "").lower()
-    if "conforme" in e:
-        return "✅"
-    if "migliorabile" in e:
-        return "⚠️"
     if "non conforme" in e:
         return "❌"
+    if "migliorabile" in e:
+        return "⚠️"
     if "critica" in e:
         return "⛔"
+    if "conforme" in e:
+        return "✅"
     return "•"
 # -----------------------
 # PAGE: NUOVO AUDIT
 # -----------------------
 st.markdown("## 🧩 Mini Audit HSE — 4Step (ITA / ENG)")
-st.caption("Checklist Michelin preserved + upgrade 4Step: scoring, osservazioni, azioni, storico CSV. Export PDF con logo.")
+st.caption("Checklist Michelin preserved + upgrade 4Step: scoring, osservazioni, azioni, storico MariaDB/API. Export PDF con logo.")
 
 # KPI row
 pts, pts_max, pct = compute_score(st.session_state.audit)
@@ -1097,7 +1214,7 @@ st.markdown("<hr/>", unsafe_allow_html=True)
 
 # Actions
 st.markdown("### 🔧 Azioni e Follow-up")
-st.caption("Aggiungi azioni correttive o miglioramenti. Finiscono anche nel PDF e nello storico CSV.")
+st.caption("Aggiungi azioni correttive o miglioramenti. Finiscono anche nel PDF e nello storico MariaDB/API.")
 
 if st.button("➕ Aggiungi azione"):
     st.session_state.audit["actions"].append({"azione": "", "owner": "", "due": "", "status": "Aperta"})
@@ -1122,4 +1239,4 @@ if st.session_state.audit["actions"]:
                 st.rerun()
 
 st.markdown("<hr/>", unsafe_allow_html=True)
-st.info("Suggerimento operativo: compila, poi premi **💾 Salva** (storico CSV) e/o **🧾 PDF** dalla sidebar.")
+st.info("Suggerimento operativo: compila, poi premi **💾 Salva** (storico MariaDB/API) e/o **🧾 PDF** dalla sidebar.")
